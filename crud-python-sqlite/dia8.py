@@ -14,15 +14,18 @@ def create_table():
     conn.commit()
 
 def insert_product():
-    nome = str(input("Digite o nome do produto: "))
-    preco = float(input(f"Digite o preço do {nome}: "))
-    quant = int(input(f"Digite a quantidade do {nome}: "))
-    os.system('clear')
-    print(f"Produto {nome}\nPreço: R${preco:,.2f}\nQuantidade: {quant}")
-    cursor.execute('''INSERT INTO produtos (nome, preco, quantidade)
-                   VALUES (?, ?, ?)''', (nome, preco, quant))
-    conn.commit()   
-
+    try:
+        nome = str(input("Digite o nome do produto: "))
+        preco = float(input(f"Digite o preço do {nome}: "))
+        quant = int(input(f"Digite a quantidade do {nome}: "))
+        os.system('clear')
+        print(f"Produto {nome}\nPreço: R${preco:,.2f}\nQuantidade: {quant}")
+        cursor.execute('''INSERT INTO produtos (nome, preco, quantidade)
+                    VALUES (?, ?, ?)''', (nome, preco, quant))
+        conn.commit()   
+    except ValueError:
+        print("\nErro: Você digitou um caractere inválido. Use apenas números para preço e quantidade!\n")
+    
 def list_products():
     cursor.execute("SELECT * FROM produtos")
     produtos = cursor.fetchall()
